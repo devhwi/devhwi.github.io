@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>hwiVeloper</title>
+    <link>https://hwiVeloper.github.io/</link>
+    <atom:link href="/rss.xml" rel="self" type="application/rss+xml"/>
+    
+    <description>hwiVeloper&#39;s dev note</description>
+    <pubDate>Mon, 18 Nov 2019 08:33:08 GMT</pubDate>
+    <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>두 번째 이직</title>
+      <link>https://hwiVeloper.github.io/2019/10/28/2nd-job-flipping/</link>
+      <guid>https://hwiVeloper.github.io/2019/10/28/2nd-job-flipping/</guid>
+      <pubDate>Mon, 28 Oct 2019 05:42:29 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;h1 id=&quot;또-한-번의-이직&quot;&gt;&lt;a href=&quot;#또-한-번의-이직&quot; class=&quot;headerlink&quot; title=&quot;또 한 번의 이직&quot;&gt;&lt;/a&gt;또 한 번의 이직&lt;/h1&gt;&lt;p&gt;두 번째 직장을 떠나 세 번째 직장으로 몸을 옮겼다. 5월부터 슬슬 면접을
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2019/10/28/2nd-job-flipping/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>스프링부트 OAuth2 - 3. OAuth 인증 서버 구축</title>
+      <link>https://hwiVeloper.github.io/2019/04/21/spring-boot-oauth2-authserver/</link>
+      <guid>https://hwiVeloper.github.io/2019/04/21/spring-boot-oauth2-authserver/</guid>
+      <pubDate>Sun, 21 Apr 2019 09:12:00 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://spring.io/guides/tutorials/spring-boot-oauth2/&quot; rel=&quot;external nofollow noopener noreferrer&quot;
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2019/04/21/spring-boot-oauth2-authserver/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>스프링부트 OAuth2 - 2. Github 인증</title>
+      <link>https://hwiVeloper.github.io/2019/04/08/spring-boot-oauth2-github/</link>
+      <guid>https://hwiVeloper.github.io/2019/04/08/spring-boot-oauth2-github/</guid>
+      <pubDate>Mon, 08 Apr 2019 07:30:00 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://spring.io/guides/tutorials/spring-boot-oauth2/&quot; rel=&quot;external nofollow noopener noreferrer&quot;
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2019/04/08/spring-boot-oauth2-github/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>스프링부트 OAuth2 - 1. Facebook 인증</title>
+      <link>https://hwiVeloper.github.io/2019/04/05/spring-boot-oauth2-facebook/</link>
+      <guid>https://hwiVeloper.github.io/2019/04/05/spring-boot-oauth2-facebook/</guid>
+      <pubDate>Fri, 05 Apr 2019 07:30:53 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://spring.io/guides/tutorials/spring-boot-oauth2/&quot; rel=&quot;external nofollow noopener noreferrer&quot;
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2019/04/05/spring-boot-oauth2-facebook/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>스프링부트 스케쥴러</title>
+      <link>https://hwiVeloper.github.io/2019/01/16/spring-boot-scheduler/</link>
+      <guid>https://hwiVeloper.github.io/2019/01/16/spring-boot-scheduler/</guid>
+      <pubDate>Wed, 16 Jan 2019 14:39:53 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;p&gt;스프링 부트에서는 스케쥴러가 사용이 가능하다. 따로 &lt;code&gt;Maven&lt;/code&gt;이나 &lt;code&gt;Gradle&lt;/code&gt;에서 dependency를 추가하지 않고 기본 요소로 탑재가 되어있다. 간단하게 어노테이션과
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2019/01/16/spring-boot-scheduler/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>[도서리뷰] IT 트렌드 스페셜 리포트 2019</title>
+      <link>https://hwiVeloper.github.io/2019/01/10/book-review-it-trend-special-report-2019/</link>
+      <guid>https://hwiVeloper.github.io/2019/01/10/book-review-it-trend-special-report-2019/</guid>
+      <pubDate>Thu, 10 Jan 2019 07:34:01 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;p&gt;&lt;img src=&quot;https://i.imgur.com/13LUPdi.jpg&quot; alt=&quot;IT 트렌드 스페셜 리포트 2019&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;4차산업혁명&lt;/code&gt;, 이시대에 가장 핫한 키워드임은 분명하다. 매년 가트너에서 새해에
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2019/01/10/book-review-it-trend-special-report-2019/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>스프링부트에서 STOMP 웹소켓 사용하기</title>
+      <link>https://hwiVeloper.github.io/2019/01/10/spring-boot-stomp-websocket/</link>
+      <guid>https://hwiVeloper.github.io/2019/01/10/spring-boot-stomp-websocket/</guid>
+      <pubDate>Thu, 10 Jan 2019 00:43:59 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;p&gt;&lt;code&gt;spring guide&lt;/code&gt;를 보던 중 &lt;code&gt;STOMP&lt;/code&gt; 프로토콜을 사용하여 &lt;code&gt;WebSocket&lt;/code&gt;을 구현하는 재미있는 샘플이 있어서 사용해보았다. &lt;code&gt;WebSocket&lt;/code&gt;은
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2019/01/10/spring-boot-stomp-websocket/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Java StringJoiner 사용하기</title>
+      <link>https://hwiVeloper.github.io/2019/01/07/java-stringjoiner/</link>
+      <guid>https://hwiVeloper.github.io/2019/01/07/java-stringjoiner/</guid>
+      <pubDate>Mon, 07 Jan 2019 05:05:44 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;p&gt;Java에서 문자열 사이에 특정한 기호로 연결시키고 싶을 경우가 간혹 생긴다. 보통이라면 &lt;code&gt;for&lt;/code&gt;루프를 통해서 간단하게 만들 수 있을 것이다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{&amp;quot;아이언맨&amp;quot;,
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2019/01/07/java-stringjoiner/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>돌아보는 2018</title>
+      <link>https://hwiVeloper.github.io/2018/12/31/2018-memoir/</link>
+      <guid>https://hwiVeloper.github.io/2018/12/31/2018-memoir/</guid>
+      <pubDate>Mon, 31 Dec 2018 08:47:56 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;p&gt;어쩌다보니 2018년의 처음이자 마지막 포스팅이 되었다. 정비도 어느정도 마쳤으니, 내년에는 좀 더 부지런하게 기록을 남겨야겠다. 올 한 해는 이런저런 공부를 해야지 하고 다짐했던 1월 1일이 아직도 생생한데 벌써 이렇게 1년이 훌쩍 가버렸다.
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2018/12/31/2018-memoir/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>jsp db connection 설정 (datasource)</title>
+      <link>https://hwiVeloper.github.io/2017/10/10/java-jdbc-db-connection-datasource/</link>
+      <guid>https://hwiVeloper.github.io/2017/10/10/java-jdbc-db-connection-datasource/</guid>
+      <pubDate>Tue, 10 Oct 2017 14:54:06 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;h1 id=&quot;라이브러리&quot;&gt;&lt;a href=&quot;#라이브러리&quot; class=&quot;headerlink&quot; title=&quot;라이브러리&quot;&gt;&lt;/a&gt;라이브러리&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2017/10/10/java-jdbc-db-connection-datasource/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>자바스크립트 차트 라이브러리 모음</title>
+      <link>https://hwiVeloper.github.io/2017/08/20/javascript-charts-library/</link>
+      <guid>https://hwiVeloper.github.io/2017/08/20/javascript-charts-library/</guid>
+      <pubDate>Sun, 20 Aug 2017 13:45:47 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;blockquote&gt;
+&lt;p&gt;개인적으로는 하이차트와 amcharts등이 가장 괜찮아 보인다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;nvd3&lt;br&gt;&lt;a href=&quot;http://nvd3.org/&quot; rel=&quot;external nofollow noopener
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2017/08/20/javascript-charts-library/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Atom 패키지 multi-cursor</title>
+      <link>https://hwiVeloper.github.io/2017/08/01/atom-multi-cursor/</link>
+      <guid>https://hwiVeloper.github.io/2017/08/01/atom-multi-cursor/</guid>
+      <pubDate>Tue, 01 Aug 2017 08:20:11 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;h1 id=&quot;multi-cursor&quot;&gt;&lt;a href=&quot;#multi-cursor&quot; class=&quot;headerlink&quot; title=&quot;multi-cursor&quot;&gt;&lt;/a&gt;multi-cursor&lt;/h1&gt;&lt;p&gt;에디터를 사용하다 보면 같은 선상에 있는 몇 개의
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2017/08/01/atom-multi-cursor/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Atom 패키지 pigments</title>
+      <link>https://hwiVeloper.github.io/2017/07/31/atom-pigments/</link>
+      <guid>https://hwiVeloper.github.io/2017/07/31/atom-pigments/</guid>
+      <pubDate>Mon, 31 Jul 2017 01:20:09 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;h1 id=&quot;pigments&quot;&gt;&lt;a href=&quot;#pigments&quot; class=&quot;headerlink&quot; title=&quot;pigments&quot;&gt;&lt;/a&gt;pigments&lt;/h1&gt;&lt;p&gt;공식 Repo : &lt;a
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2017/07/31/atom-pigments/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Atom 패키지 Remote-FTP</title>
+      <link>https://hwiVeloper.github.io/2017/07/28/atom-remote-ftp/</link>
+      <guid>https://hwiVeloper.github.io/2017/07/28/atom-remote-ftp/</guid>
+      <pubDate>Fri, 28 Jul 2017 07:31:27 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;h1 id=&quot;Remote-FTP&quot;&gt;&lt;a href=&quot;#Remote-FTP&quot; class=&quot;headerlink&quot; title=&quot;Remote-FTP&quot;&gt;&lt;/a&gt;Remote-FTP&lt;/h1&gt;&lt;p&gt;공식 Repo : &lt;a
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2017/07/28/atom-remote-ftp/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>라라벨 인스톨러 설치 (command not found)</title>
+      <link>https://hwiVeloper.github.io/2017/07/28/laravel-installer/</link>
+      <guid>https://hwiVeloper.github.io/2017/07/28/laravel-installer/</guid>
+      <pubDate>Fri, 28 Jul 2017 01:11:01 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;h2 id=&quot;라라벨-인스톨러-설치&quot;&gt;&lt;a href=&quot;#라라벨-인스톨러-설치&quot; class=&quot;headerlink&quot; title=&quot;라라벨 인스톨러 설치&quot;&gt;&lt;/a&gt;라라벨 인스톨러 설치&lt;/h2&gt;&lt;p&gt;&lt;code&gt;composer&lt;/code&gt;를 사용하여 라라벨
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2017/07/28/laravel-installer/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>라즈베리파이 nginx 로그의 주기를 설정하기</title>
+      <link>https://hwiVeloper.github.io/2017/07/21/create-nginx-log-by-dates-in-raspberrypi/</link>
+      <guid>https://hwiVeloper.github.io/2017/07/21/create-nginx-log-by-dates-in-raspberrypi/</guid>
+      <pubDate>Fri, 21 Jul 2017 02:31:32 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;p&gt;서버에 설치된 데몬마다 로그를 생성하는데, 각 데몬별로 로그 주기를 정할 수 있는 곳이&lt;br&gt;&lt;code&gt;/etc/logrotate.d&lt;/code&gt;이다.&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2017/07/21/create-nginx-log-by-dates-in-raspberrypi/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>php 이번 달 날짜 리스트 구하기</title>
+      <link>https://hwiVeloper.github.io/2017/07/21/php-date-list-of-this-month/</link>
+      <guid>https://hwiVeloper.github.io/2017/07/21/php-date-list-of-this-month/</guid>
+      <pubDate>Fri, 21 Jul 2017 01:11:05 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;p&gt;해당 월의 모든 날짜를 구하는 것이다.&lt;/p&gt;
+&lt;p&gt;달력 등에 관련된 것을 사용할 때 유용하다.&lt;/p&gt;
+&lt;figure class=&quot;highlight php&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2017/07/21/php-date-list-of-this-month/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>mysql 커스텀 정렬</title>
+      <link>https://hwiVeloper.github.io/2017/06/28/mysql-custom-order/</link>
+      <guid>https://hwiVeloper.github.io/2017/06/28/mysql-custom-order/</guid>
+      <pubDate>Wed, 28 Jun 2017 05:02:17 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;p&gt;&lt;code&gt;mysql&lt;/code&gt;에서 특정 값들을 내 마음대로 정렬하고 싶을 때 다음과 같이 사용한다.&lt;/p&gt;
+&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2017/06/28/mysql-custom-order/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>라라벨(Laravel) 컴포저(Composer) 명령어</title>
+      <link>https://hwiVeloper.github.io/2017/06/12/laravel-composer-command/</link>
+      <guid>https://hwiVeloper.github.io/2017/06/12/laravel-composer-command/</guid>
+      <pubDate>Mon, 12 Jun 2017 04:57:17 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;p&gt;컴포저 명령어 리스트입니다.&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2017/06/12/laravel-composer-command/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Swift 프로토콜(protocol)</title>
+      <link>https://hwiVeloper.github.io/2017/05/31/swift-protocol/</link>
+      <guid>https://hwiVeloper.github.io/2017/05/31/swift-protocol/</guid>
+      <pubDate>Wed, 31 May 2017 01:45:23 GMT</pubDate>
+      <description>
+      
+        
+        
+          
+          
+            &lt;blockquote&gt;
+&lt;p&gt;꼼꼼한 재은씨의 Swift3 기본편을 보며 Swift 문법 내용을 정리한 내용입니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;프로토콜-객체의-설계도&quot;&gt;&lt;a href=&quot;#프로토콜-객체의-설계도&quot;
+          
+        
+      
+      </description>
+      
+      <comments>https://hwiVeloper.github.io/2017/05/31/swift-protocol/#disqus_thread</comments>
+    </item>
+    
+  </channel>
+</rss>

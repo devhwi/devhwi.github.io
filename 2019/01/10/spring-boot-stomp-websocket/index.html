@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- adsense -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-1177674828493578",
+    enable_page_level_ads: true
+  });
+</script>
+
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>스프링부트에서 STOMP 웹소켓 사용하기 | hwiVeloper</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="java,spring,spring-boot,stomp,websocket,messaging">
+    
+    <!-- naver-site-verification -->
+    <meta name="naver-site-verification" content="4b97c9f410edba46c1d63bf0aaacc3f2fad71509">
+    
+        <meta name="description" content="spring guide를 보던 중 STOMP 프로토콜을 사용하여 WebSocket을 구현하는 재미있는 샘플이 있어서 사용해보았다. WebSocket은 TCP레이어 위에 존재하여 중간에 메세지를 전달할 수 있는 채널의 개념이다. 공식 가이드에서는 STOMP라는 프로토콜을 사용하여 간단한 요청 및 응답을 하는 기본적인 구성으로 되어있다. 이에 더하여 정말 간단">
+<meta name="keywords" content="java,spring,spring-boot,stomp,websocket,messaging">
+<meta property="og:type" content="article">
+<meta property="og:title" content="스프링부트에서 STOMP 웹소켓 사용하기">
+<meta property="og:url" content="https://hwiVeloper.github.io/2019/01/10/spring-boot-stomp-websocket/index.html">
+<meta property="og:site_name" content="hwiVeloper">
+<meta property="og:description" content="spring guide를 보던 중 STOMP 프로토콜을 사용하여 WebSocket을 구현하는 재미있는 샘플이 있어서 사용해보았다. WebSocket은 TCP레이어 위에 존재하여 중간에 메세지를 전달할 수 있는 채널의 개념이다. 공식 가이드에서는 STOMP라는 프로토콜을 사용하여 간단한 요청 및 응답을 하는 기본적인 구성으로 되어있다. 이에 더하여 정말 간단">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://i.imgur.com/WTlXjeF.jpg">
+<meta property="og:updated_time" content="2019-11-18T08:33:08.737Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="스프링부트에서 STOMP 웹소켓 사용하기">
+<meta name="twitter:description" content="spring guide를 보던 중 STOMP 프로토콜을 사용하여 WebSocket을 구현하는 재미있는 샘플이 있어서 사용해보았다. WebSocket은 TCP레이어 위에 존재하여 중간에 메세지를 전달할 수 있는 채널의 개념이다. 공식 가이드에서는 STOMP라는 프로토콜을 사용하여 간단한 요청 및 응답을 하는 기본적인 구성으로 되어있다. 이에 더하여 정말 간단">
+<meta name="twitter:image" content="https://i.imgur.com/WTlXjeF.jpg">
+    
+    
+
+    
+
+    
+        <link rel="icon" href="/favicon-github.ico">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-99293532-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <!-- OneSignal -->
+    <link rel="manifest" href="/manifest.json">
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+            appId: "76ed5201-e024-4abf-a603-048783f1a361",
+            });
+        });
+    </script>
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo-title">hwiVeloper</a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">devlog</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/archives/index.html">Archive</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/java/">java</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-spring-boot-stomp-websocket" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        스프링부트에서 STOMP 웹소켓 사용하기
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/01/10/spring-boot-stomp-websocket/" class="article-date">
+            <time datetime="2019-01-10T00:43:59.000Z" itemprop="datePublished">2019-01-10</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/java/">java</a>, <a class="tag-link" href="/tags/messaging/">messaging</a>, <a class="tag-link" href="/tags/spring/">spring</a>, <a class="tag-link" href="/tags/spring-boot/">spring-boot</a>, <a class="tag-link" href="/tags/stomp/">stomp</a>, <a class="tag-link" href="/tags/websocket/">websocket</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p><code>spring guide</code>를 보던 중 <code>STOMP</code> 프로토콜을 사용하여 <code>WebSocket</code>을 구현하는 재미있는 샘플이 있어서 사용해보았다. <code>WebSocket</code>은 TCP레이어 위에 존재하여 중간에 메세지를 전달할 수 있는 채널의 개념이다. 공식 가이드에서는 <code>STOMP</code>라는 프로토콜을 사용하여 간단한 요청 및 응답을 하는 기본적인 구성으로 되어있다. 이에 더하여 정말 간단한 채팅 어플리케이션을 구현하는 것까지가 이번 글의 목표이다.</p>
+<p>소스코드는 <code>http://spring.io/guides/gs/messaging-stomp-websocket</code>에서 참조했다.</p>
+<h1 id="STOMP"><a href="#STOMP" class="headerlink" title="STOMP"></a>STOMP</h1><p>프로젝트 생성 전에 <code>STOMP(https://stomp.github.io/)</code>가 무엇인지 간단히 알아보자. <code>Simple Text Oriented Messaging Protocol</code>의 약자로 단순 텍스트 기반 메세징 프로토콜이다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">COMMAND</span><br><span class="line">key(header):value</span><br><span class="line">key(header):value</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">BODY^@</span><br></pre></td></tr></table></figure>
+<p>위와 같은 형식으로 되어있다. <code>COMMAND</code>에는 보통 <code>SEND</code>, <code>SUBSCRIBE</code>와 같은 명령을 사용할 수 있다. 추가적인 header와 body 본문 내용을 통해 통신을 하는 방식이라고 보면 되겠다.</p>
+<p><img src="https://i.imgur.com/wUQSJkH.png" alt="STOMP 통신 포맷 예시"></p>
+<p>위 예시 이미지는 소켓 통신 커넥션을 생성하는 부분이므로 COMMAND와 header만 존재하고 body 본문 내용은 존재하지 않다.</p>
+<p>더 자세한 내용은 <a href="https://zetawiki.com/wiki/STOMP" rel="external nofollow noopener noreferrer" target="_blank">https://zetawiki.com/wiki/STOMP</a> 등에서 참조하도록 하고 본격적인 프로젝트 생성부터 들어가보자.</p>
+<h1 id="프로젝트-생성"><a href="#프로젝트-생성" class="headerlink" title="프로젝트 생성"></a>프로젝트 생성</h1><p><a href="https://start.spring.io/" rel="external nofollow noopener noreferrer" target="_blank">https://start.spring.io/</a> 에서 프로젝트를 생성하거나 eclipse, sts 등 사용하고 있는 IDE에서 spring boot project를 생성한다.</p>
+<p><img src="https://i.imgur.com/sU6nfkH.png" alt="STS에서 프로젝트 생성-1"><br><img src="https://i.imgur.com/DqqLsAJ.png" alt="STS에서 프로젝트 생성-2"></p>
+<h1 id="빌드-툴"><a href="#빌드-툴" class="headerlink" title="빌드 툴"></a>빌드 툴</h1><p><code>Gradle</code>과 <code>Maven</code>을 사용할텐데 두 가지 뭐로 하든 무방하다.</p>
+<details><summary>Gradle</summary><br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">buildscript</span> &#123;</span><br><span class="line">  ext &#123;</span><br><span class="line">    springBootVersion = <span class="string">'2.1.1.RELEASE'</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">repositories</span> &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="keyword">classpath</span>(<span class="string">"org.springframework.boot:spring-boot-gradle-plugin:$&#123;springBootVersion&#125;"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">apply plugin: <span class="string">'java'</span></span><br><span class="line">apply plugin: <span class="string">'eclipse-wtp'</span></span><br><span class="line">apply plugin: <span class="string">'org.springframework.boot'</span></span><br><span class="line">apply plugin: <span class="string">'io.spring.dependency-management'</span></span><br><span class="line"></span><br><span class="line">bootJar &#123;</span><br><span class="line">  baseName = <span class="string">'spring-boot-chatting'</span></span><br><span class="line">  version = <span class="string">'0.1.0'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">sourceCompatibility</span> = <span class="string">'1.8'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">repositories</span> &#123;</span><br><span class="line">  mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">  <span class="keyword">compile</span>(<span class="string">"org.springframework.boot:spring-boot-starter-websocket"</span>)</span><br><span class="line">  <span class="keyword">compile</span>(<span class="string">"org.webjars:webjars-locator-core"</span>)</span><br><span class="line">  <span class="keyword">compile</span>(<span class="string">"org.webjars:sockjs-client:1.0.2"</span>)</span><br><span class="line">  <span class="keyword">compile</span>(<span class="string">"org.webjars:stomp-websocket:2.3.3"</span>)</span><br><span class="line">  <span class="keyword">compile</span>(<span class="string">"org.webjars:bootstrap:3.3.7"</span>)</span><br><span class="line">  <span class="keyword">compile</span>(<span class="string">"org.webjars:jquery:3.1.0"</span>)</span><br><span class="line"></span><br><span class="line">  testCompile(<span class="string">"org.springframework.boot:spring-boot-starter-test"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">task</span> stage &#123;</span><br><span class="line">  dependsOn build</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br></details>
+
+<details><summary>Maven</summary><br><p><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>gs-messaging-stomp-websocket<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.5.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-websocket<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.webjars<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>webjars-locator-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.webjars<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>sockjs-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.webjars<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>stomp-websocket<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.webjars<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>bootstrap<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.webjars<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jquery<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure><br><br></p><br></details>
+
+<h1 id="메세지-Class-작성"><a href="#메세지-Class-작성" class="headerlink" title="메세지 Class 작성"></a>메세지 Class 작성</h1><p><code>STOMP</code>메세지 포맷에 맞게 <code>getter</code>를 가진 domain class를 생성해보자. STOMP 메세지에서 body는 <code>JSON</code> 오브젝트로 구성이 되어있다. 스프링 부트에서 <code>Jackson JSON</code> 라이브러리를 사용하고 있기 때문에 domain class를 파라미터로 사용하거나 <code>return</code>시켜준다면 json으로 변환이 된 상태로 통신할 것이다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"hwiVeloper"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>HelloMessage.java</code>를 생성하고 내용을 작성한다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> dev.hwi.domain;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloMessage</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">HelloMessage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">HelloMessage</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>그리고 <code>Greeting.java</code>를 작성해보자.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> dev.hwi.domain;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Greeting</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String content;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Greeting</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Greeting</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.content = content;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getContent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> content;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="컨트롤러"><a href="#컨트롤러" class="headerlink" title="컨트롤러"></a>컨트롤러</h1><p><code>STOMP</code> 메세지는 스프링에서는 컨트롤러에서 핸들링된다. 아래 <code>GreetingConroller.java</code>를 작성해보자.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> dev.hwi.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.messaging.handler.annotation.MessageMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.messaging.handler.annotation.SendTo;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.util.HtmlUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> dev.hwi.domain.Chat;</span><br><span class="line"><span class="keyword">import</span> dev.hwi.domain.Greeting;</span><br><span class="line"><span class="keyword">import</span> dev.hwi.domain.HelloMessage;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GreetingController</span> </span>&#123;</span><br><span class="line">	<span class="meta">@MessageMapping</span>(<span class="string">"/hello"</span>)</span><br><span class="line">	<span class="meta">@SendTo</span>(<span class="string">"/topic/greetings"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Greeting <span class="title">greeting</span><span class="params">(HelloMessage message)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		Thread.sleep(<span class="number">100</span>); <span class="comment">// delay</span></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Greeting(<span class="string">"Hello, "</span> + HtmlUtils.htmlEscape(message.getName()) + <span class="string">"!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>단순한 컨트롤러이지만 생소한 <code>annotation</code> 두 개가 보인다. <code>@MessageMapping</code>은  클라이언트에서 <code>/hello</code>쪽으로 메세지를 전달하면 <code>greeting</code>메서드가 실행된다. 그리고 이 메서드는 다시 <code>@SendTo</code> 어노테이션에 정의된 쪽으로 결과를 return시킨다. 예제에서는 <code>Thread.sleep(1000);</code>를 작성했지만 생략해도 무방하다. <code>@SendTo</code>로 return시킨 후에 클라이언트에서는 전달받은 값을 렌더링하여 브라우저에 표시해 줄 수 있는 상태가 된다.</p>
+<h1 id="STOMP-관련-설정"><a href="#STOMP-관련-설정" class="headerlink" title="STOMP 관련 설정"></a>STOMP 관련 설정</h1><p>설정이 필요하므로 <code>WebSocketConfig.java</code>파일을 작성한다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> dev.hwi.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.messaging.simp.config.MessageBrokerRegistry;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.socket.config.annotation.StompEndpointRegistry;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebSocketMessageBroker</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebSocketConfig</span> <span class="keyword">implements</span> <span class="title">WebSocketMessageBrokerConfigurer</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureMessageBroker</span><span class="params">(MessageBrokerRegistry registry)</span> </span>&#123;</span><br><span class="line">		registry.enableSimpleBroker(<span class="string">"/topic"</span>);</span><br><span class="line">		registry.setApplicationDestinationPrefixes(<span class="string">"/app"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerStompEndpoints</span><span class="params">(StompEndpointRegistry registry)</span> </span>&#123;</span><br><span class="line">		registry.addEndpoint(<span class="string">"/websocket"</span>).withSockJS();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>@Configuration</code>, <code>@EnableWebSocketMessageBroker</code>를 통해 WebSocket과 관련된 설정을 작동시킨다. <code>WebSocketConfig</code> 클래스는 <code>WebSocketMessageBrokerConfigurer</code>를 <code>implements</code>하고 두 개의 메서드를 오버라이딩한다.</p>
+<blockquote>
+<p>메세지 브로커(Message Broker)는 송신자에게 수신자의 이전 메세지 프로토콜로 변환해주는 모듈 중에 하나이다. 요청이 오면 그에 해당하는 통신 채널로 전송해주고 응답 역시 왔던 길을 그대로 다시 가서 안정적으로 메세지를 응답해주기 위한 부분입니다.</p>
+</blockquote>
+<ul>
+<li><code>configureMessageBroker()</code><ul>
+<li>enableSimpleBroker는 클라이언트로 메세지를 응답해줄 때 prefix를 정의한다.</li>
+<li>setApplicationDestinationPrefixes는 클라이언트에서 메세지 송신 시 붙여줄 prefix를 정의한다.</li>
+</ul>
+</li>
+<li><code>registerStompEndpoints()</code><ul>
+<li>최초 소켓 연결을 하는 경우, endpoint가 되는 url이다. 추후 javascript에서 SockJS 생성자를 통해 연결될 것이다.</li>
+</ul>
+</li>
+</ul>
+<h1 id="html-js-작성"><a href="#html-js-작성" class="headerlink" title="html, js 작성"></a>html, js 작성</h1><p><code>/src/main/resources/static/index.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello WebSocket<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"/webjars/bootstrap/css/bootstrap.min.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"/main.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/webjars/jquery/jquery.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/webjars/sockjs-client/sockjs.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/webjars/stomp-websocket/stomp.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/app.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">noscript</span>&gt;</span><span class="tag">&lt;<span class="name">h2</span> <span class="attr">style</span>=<span class="string">"color: #ff0000"</span>&gt;</span>Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!<span class="tag">&lt;/<span class="name">h2</span>&gt;</span><span class="tag">&lt;/<span class="name">noscript</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main-content"</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-md-6"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">"form-inline"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"connect"</span>&gt;</span>WebSocket connection:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"connect"</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span> <span class="attr">type</span>=<span class="string">"submit"</span>&gt;</span>Connect<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"disconnect"</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">disabled</span>=<span class="string">"disabled"</span>&gt;</span>Disconnect</span><br><span class="line">          <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-md-6"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">"form-inline"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"name"</span>&gt;</span>What is your name?<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"name"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">placeholder</span>=<span class="string">"Your name here..."</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"send"</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span> <span class="attr">type</span>=<span class="string">"submit"</span>&gt;</span>Send<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-md-12"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">table</span> <span class="attr">id</span>=<span class="string">"conversation"</span> <span class="attr">class</span>=<span class="string">"table table-striped"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">th</span>&gt;</span>Greetings<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tbody</span> <span class="attr">id</span>=<span class="string">"greetings"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>/src/main/resources/static/app.js</code></p>
+<p>부가 내용은 주석으로 설명</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stompClient = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setConnected</span>(<span class="params">connected</span>) </span>&#123;</span><br><span class="line">  $(<span class="string">"#connect"</span>).prop(<span class="string">"disabled"</span>, connected);</span><br><span class="line">  $(<span class="string">"#disconnect"</span>).prop(<span class="string">"disabled"</span>, !connected);</span><br><span class="line">  <span class="keyword">if</span> (connected) &#123;</span><br><span class="line">    $(<span class="string">"#conversation"</span>).show();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    $(<span class="string">"#conversation"</span>).hide();</span><br><span class="line">  &#125;</span><br><span class="line">  $(<span class="string">"#greetings"</span>).html(<span class="string">""</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> socket = <span class="keyword">new</span> SockJS(<span class="string">'/websocket'</span>);</span><br><span class="line">  stompClient = Stomp.over(socket);</span><br><span class="line">  <span class="comment">// SockJS와 stomp client를 통해 연결을 시도.</span></span><br><span class="line">  stompClient.connect(&#123;&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">frame</span>) </span>&#123;</span><br><span class="line">    setConnected(<span class="literal">true</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Connected: '</span> + frame);</span><br><span class="line">    stompClient.subscribe(<span class="string">'/topic/greetings'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">greeting</span>) </span>&#123;</span><br><span class="line">      showGreeting(<span class="built_in">JSON</span>.parse(greeting.body).content);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">disconnect</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (stompClient !== <span class="literal">null</span>) &#123;</span><br><span class="line">    stompClient.disconnect();</span><br><span class="line">  &#125;</span><br><span class="line">  setConnected(<span class="literal">false</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"Disconnected"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// /app/hello로 JSON 파라미터를 메세지 body로 전송.</span></span><br><span class="line">  stompClient.send(<span class="string">"/app/hello"</span>, &#123;&#125;, <span class="built_in">JSON</span>.stringify(&#123;<span class="string">'name'</span>: $(<span class="string">"#name"</span>).val()&#125;));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showGreeting</span>(<span class="params">message</span>) </span>&#123;</span><br><span class="line">  $(<span class="string">"#greetings"</span>).append(<span class="string">"&lt;tr&gt;&lt;td&gt;"</span> + message + <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  $(<span class="string">"form"</span>).on(<span class="string">'submit'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line">  &#125;);</span><br><span class="line">  $( <span class="string">"#connect"</span> ).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; connect(); &#125;);</span><br><span class="line">  $( <span class="string">"#disconnect"</span> ).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; disconnect(); &#125;);</span><br><span class="line">  $( <span class="string">"#send"</span> ).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; sendName(); &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>이후 작성한 프로젝트를 Server Start 한 후 확인한다.</p>
+<p><img src="https://i.imgur.com/7JLA9iF.gif" alt="실행 후 개발자도구로 확인하는 모습"></p>
+<p>여기까지가 공식가이드에서 보여주는 샘플이다. 진짜 채팅처럼(그래도 디자인은 자신이 없다..) ui를 약간만 추가해주자.</p>
+<h1 id="간단한-채팅-어플리케이션-만들어보기"><a href="#간단한-채팅-어플리케이션-만들어보기" class="headerlink" title="간단한 채팅 어플리케이션 만들어보기"></a>간단한 채팅 어플리케이션 만들어보기</h1><p><code>/app/chat</code>으로 송신하여 <code>/topic/chat</code>으로 수신을 받아서 여러 명이 접속하는 경우까지 가정하여 작성해보도록 한다. 송신하는 데이터 포맷은 다음과 같다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"hwiVeloper"</span>,</span><br><span class="line">  <span class="attr">"message"</span>: <span class="string">"안녕하세요."</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>이를 위해 <code>Greeting.java</code>와 유사하게 메세지를 받고 전달해줄 domain class가 필요하다.</p>
+<p><code>Chat.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> dev.hwi.domain;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Chat</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> String message;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Chat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Chat</span><span class="params">(String name, String message)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">		<span class="keyword">this</span>.message = message;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> message;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>GreetingController.java</code>에는 메서드를 하나 추가해준다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MessageMapping</span>(<span class="string">"/chat"</span>)</span><br><span class="line"><span class="meta">@SendTo</span>(<span class="string">"/topic/chat"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Chat <span class="title">chat</span><span class="params">(Chat chat)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> Chat(chat.getName(), chat.getMessage());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>동일하게 <code>@MessageMapping</code>과 <code>@SendTo</code> 어노테이션을 통해 매핑해주고 return시켜줄 내용을 작성해준다.</p>
+<p><code>index.html</code></p>
+<p>좀전 예제에서 이름을 입력했던 input 태그 밑에 다음과 같은 내용을 추가한다.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"message"</span>&gt;</span>Input Message<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"chatMessage"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">placeholder</span>=<span class="string">"message.."</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"chatSend"</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>Chat Send<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>app.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ... 앞에 생략 ...</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> socket = <span class="keyword">new</span> SockJS(<span class="string">'/websocket'</span>);</span><br><span class="line">  stompClient = Stomp.over(socket);</span><br><span class="line">  stompClient.connect(&#123;&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">frame</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 이 부분 추가 */</span></span><br><span class="line">    stompClient.subscribe(<span class="string">'/topic/chat'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chat</span>) </span>&#123;</span><br><span class="line">    	showChat(<span class="built_in">JSON</span>.parse(chat.body));</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ... 중략 ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Chat과 관련된 메서드 추가 */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendChat</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	stompClient.send(<span class="string">"/app/chat"</span>, &#123;&#125;, <span class="built_in">JSON</span>.stringify(&#123;<span class="string">'name'</span>: $(<span class="string">"#name"</span>).val(), <span class="string">'message'</span>: $(<span class="string">"#chatMessage"</span>).val()&#125;));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showChat</span>(<span class="params">chat</span>) </span>&#123;</span><br><span class="line">  $(<span class="string">"#greetings"</span>).append(<span class="string">"&lt;tr&gt;&lt;td&gt;"</span> + chat.name + <span class="string">" : "</span> + chat.message + <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  </span><br><span class="line">  $( <span class="string">"#chatSend"</span> ).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; sendChat(); &#125;); <span class="comment">// 추가</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="테스트"><a href="#테스트" class="headerlink" title="테스트"></a>테스트</h1><p>이제 브라우저 세션을 여러 개 띄운 후 채팅하듯이 테스트를 해본다.</p>
+<p><img src="https://i.imgur.com/UgZ6Rn0.gif" alt="4개의 브라우저에서 테스트하는 모습"></p>
+<h1 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h1><p><code>STOMP</code>기반의 메세징 서비스에 대해 알아보고 이를 <code>Spring Boot</code>에서 어떻게 사용하는지를 알아보았다.</p>
+<h1 id="소스코드"><a href="#소스코드" class="headerlink" title="소스코드"></a>소스코드</h1><p><a href="https://github.com/hwiVeloper/SpringBootStudy/tree/master/spring-boot-websocket" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/hwiVeloper/SpringBootStudy/tree/master/spring-boot-websocket</a></p>
+<h1 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h1><p><a href="http://spring.io/guides/gs/messaging-stomp-websocket" rel="external nofollow noopener noreferrer" target="_blank">http://spring.io/guides/gs/messaging-stomp-websocket</a><br><a href="https://zetawiki.com/wiki/STOMP" rel="external nofollow noopener noreferrer" target="_blank">https://zetawiki.com/wiki/STOMP</a><br><a href="https://stomp.github.io/" rel="external nofollow noopener noreferrer" target="_blank">https://stomp.github.io/</a><br><a href="http://www.egovframe.go.kr/wiki/doku.php?id=egovframework:rte3.5:ptl:stomp" rel="external nofollow noopener noreferrer" target="_blank">http://www.egovframe.go.kr/wiki/doku.php?id=egovframework:rte3.5:ptl:stomp</a></p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://hwiVeloper.github.io/2019/01/10/spring-boot-stomp-websocket/" data-id="ck346a2rf002498hhlhgujfzv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- busuanzi visitor counter script -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/hwiVeloper" target="_blank" rel="external nofollow noopener noreferrer">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/jjonghwi" target="_blank" rel="external nofollow noopener noreferrer">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="instagram" href="https://instagram.com/hwi_stagram" target="_blank" rel="external nofollow noopener noreferrer">
+                        <i class="icon fa fa-instagram"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/01/10/book-review-it-trend-special-report-2019/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            [도서리뷰] IT 트렌드 스페셜 리포트 2019
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/01/07/java-stringjoiner/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Java StringJoiner 사용하기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Review/">Review</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scribble/">Scribble</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Software/">Software</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/raspberrypi/">raspberrypi</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/28/2nd-job-flipping/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/E08CWBZ.png)" alt="두 번째 이직" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Scribble/">Scribble</a></p>
+                            <p class="item-title"><a href="/2019/10/28/2nd-job-flipping/" class="title">두 번째 이직</a></p>
+                            <p class="item-date"><time datetime="2019-10-28T05:42:29.000Z" itemprop="datePublished">2019-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/21/spring-boot-oauth2-authserver/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 OAuth2 - 3. OAuth 인증 서버 구축" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/04/21/spring-boot-oauth2-authserver/" class="title">스프링부트 OAuth2 - 3. OAuth 인증 서버 구축</a></p>
+                            <p class="item-date"><time datetime="2019-04-21T09:12:00.000Z" itemprop="datePublished">2019-04-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/08/spring-boot-oauth2-github/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 OAuth2 - 2. Github 인증" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/04/08/spring-boot-oauth2-github/" class="title">스프링부트 OAuth2 - 2. Github 인증</a></p>
+                            <p class="item-date"><time datetime="2019-04-08T07:30:00.000Z" itemprop="datePublished">2019-04-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/05/spring-boot-oauth2-facebook/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 OAuth2 - 1. Facebook 인증" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/04/05/spring-boot-oauth2-facebook/" class="title">스프링부트 OAuth2 - 1. Facebook 인증</a></p>
+                            <p class="item-date"><time datetime="2019-04-05T07:30:53.000Z" itemprop="datePublished">2019-04-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/16/spring-boot-scheduler/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 스케쥴러" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/01/16/spring-boot-scheduler/" class="title">스프링부트 스케쥴러</a></p>
+                            <p class="item-date"><time datetime="2019-01-16T14:39:53.000Z" itemprop="datePublished">2019-01-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">17</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/2018/" style="font-size: 10px;">2018</a> <a href="/tags/apm/" style="font-size: 12.86px;">apm</a> <a href="/tags/atom/" style="font-size: 12.86px;">atom</a> <a href="/tags/automount/" style="font-size: 10px;">automount</a> <a href="/tags/book/" style="font-size: 10px;">book</a> <a href="/tags/codeigniter/" style="font-size: 10px;">codeigniter</a> <a href="/tags/composer/" style="font-size: 10px;">composer</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/datasource/" style="font-size: 10px;">datasource</a> <a href="/tags/date/" style="font-size: 10px;">date</a> <a href="/tags/db-connection/" style="font-size: 10px;">db-connection</a> <a href="/tags/developer/" style="font-size: 10px;">developer</a> <a href="/tags/devtools/" style="font-size: 12.86px;">devtools</a> <a href="/tags/facebook/" style="font-size: 10px;">facebook</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ide/" style="font-size: 12.86px;">ide</a> <a href="/tags/installer/" style="font-size: 10px;">installer</a> <a href="/tags/java/" style="font-size: 17.14px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/laravel/" style="font-size: 11.43px;">laravel</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/logrotate/" style="font-size: 10px;">logrotate</a> <a href="/tags/mariadb/" style="font-size: 10px;">mariadb</a> <a href="/tags/memoir/" style="font-size: 10px;">memoir</a> <a href="/tags/messaging/" style="font-size: 10px;">messaging</a> <a href="/tags/multi-cursor/" style="font-size: 10px;">multi-cursor</a> <a href="/tags/mvc/" style="font-size: 10px;">mvc</a> <a href="/tags/mysql/" style="font-size: 12.86px;">mysql</a> <a href="/tags/nginx/" style="font-size: 11.43px;">nginx</a> <a href="/tags/oauth2/" style="font-size: 12.86px;">oauth2</a> <a href="/tags/obj-c/" style="font-size: 20px;">obj-c</a> <a href="/tags/objective-c/" style="font-size: 20px;">objective-c</a> <a href="/tags/order-by/" style="font-size: 10px;">order by</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/php7/" style="font-size: 10px;">php7</a> <a href="/tags/php7-fpm/" style="font-size: 10px;">php7-fpm</a> <a href="/tags/pigments/" style="font-size: 10px;">pigments</a> <a href="/tags/proftpd/" style="font-size: 10px;">proftpd</a> <a href="/tags/raspberrypi/" style="font-size: 18.57px;">raspberrypi</a> <a href="/tags/raspbian/" style="font-size: 18.57px;">raspbian</a> <a href="/tags/remote-ftp/" style="font-size: 10px;">remote-ftp</a> <a href="/tags/review/" style="font-size: 10px;">review</a> <a href="/tags/scheduler/" style="font-size: 10px;">scheduler</a> <a href="/tags/spring/" style="font-size: 15.71px;">spring</a> <a href="/tags/spring-boot/" style="font-size: 15.71px;">spring-boot</a> <a href="/tags/spring-security/" style="font-size: 12.86px;">spring-security</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/stomp/" style="font-size: 10px;">stomp</a> <a href="/tags/stringbuilder/" style="font-size: 10px;">stringbuilder</a> <a href="/tags/stringjoiner/" style="font-size: 10px;">stringjoiner</a> <a href="/tags/swift/" style="font-size: 20px;">swift</a> <a href="/tags/torrent/" style="font-size: 10px;">torrent</a> <a href="/tags/transmission/" style="font-size: 10px;">transmission</a> <a href="/tags/ubuntu/" style="font-size: 18.57px;">ubuntu</a> <a href="/tags/websocket/" style="font-size: 10px;">websocket</a> <a href="/tags/개발자/" style="font-size: 10px;">개발자</a> <a href="/tags/이직/" style="font-size: 10px;">이직</a> <a href="/tags/한빛미디어/" style="font-size: 10px;">한빛미디어</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+        <!-- busuanzi counter display -->
+        <div class="busuanzi-counter">
+            <span id="busuanzi_container_site_pv">
+                Total : <span id="busuanzi_value_site_pv"></span>
+            </span>
+            <span id="busuanzi_container_site_uv">
+                Visitors : <span id="busuanzi_value_site_uv"></span>
+            </span>
+        </div>
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+		<!--
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+		-->
+                <p>&copy; 2019 hwiVeloper</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hwiVeloper';
+    
+    
+    var disqus_url = 'https://hwiVeloper.github.io/2019/01/10/spring-boot-stomp-websocket/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+

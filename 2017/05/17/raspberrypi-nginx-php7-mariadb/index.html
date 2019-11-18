@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- adsense -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-1177674828493578",
+    enable_page_level_ads: true
+  });
+</script>
+
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>라즈베리파이 nginx, php-fpm, mysql(mariadb) 설치 | hwiVeloper</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="raspberrypi,raspbian,ubuntu,nginx,mysql,php7,php7-fpm,mariadb">
+    
+    <!-- naver-site-verification -->
+    <meta name="naver-site-verification" content="4b97c9f410edba46c1d63bf0aaacc3f2fad71509">
+    
+        <meta name="description" content="php 개발환경을 세팅해보겠다. nginx 설치12$ sudo apt-get install nginx$ sudo service nginx restart 생각보다 설치와 실행이 너무 쉬워서 깜짝 놀랬다.http://localhost로 접속하여 확인하자. php7 설치설치 준비php7에 대한 정보가 없기 때문에 이를 추가해 주는 과정이다. 12345678910">
+<meta name="keywords" content="raspberrypi,raspbian,ubuntu,nginx,mysql,php7,php7-fpm,mariadb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="라즈베리파이 nginx, php-fpm, mysql(mariadb) 설치">
+<meta property="og:url" content="https://hwiVeloper.github.io/2017/05/17/raspberrypi-nginx-php7-mariadb/index.html">
+<meta property="og:site_name" content="hwiVeloper">
+<meta property="og:description" content="php 개발환경을 세팅해보겠다. nginx 설치12$ sudo apt-get install nginx$ sudo service nginx restart 생각보다 설치와 실행이 너무 쉬워서 깜짝 놀랬다.http://localhost로 접속하여 확인하자. php7 설치설치 준비php7에 대한 정보가 없기 때문에 이를 추가해 주는 과정이다. 12345678910">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://i.imgur.com/gYjWk5Q.png">
+<meta property="og:updated_time" content="2019-11-18T08:33:08.737Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="라즈베리파이 nginx, php-fpm, mysql(mariadb) 설치">
+<meta name="twitter:description" content="php 개발환경을 세팅해보겠다. nginx 설치12$ sudo apt-get install nginx$ sudo service nginx restart 생각보다 설치와 실행이 너무 쉬워서 깜짝 놀랬다.http://localhost로 접속하여 확인하자. php7 설치설치 준비php7에 대한 정보가 없기 때문에 이를 추가해 주는 과정이다. 12345678910">
+<meta name="twitter:image" content="http://i.imgur.com/gYjWk5Q.png">
+    
+    
+
+    
+
+    
+        <link rel="icon" href="/favicon-github.ico">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-99293532-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <!-- OneSignal -->
+    <link rel="manifest" href="/manifest.json">
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+            appId: "76ed5201-e024-4abf-a603-048783f1a361",
+            });
+        });
+    </script>
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo-title">hwiVeloper</a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">devlog</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/archives/index.html">Archive</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/raspberrypi/">raspberrypi</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-raspberrypi-nginx-php7-mariadb" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        라즈베리파이 nginx, php-fpm, mysql(mariadb) 설치
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/05/17/raspberrypi-nginx-php7-mariadb/" class="article-date">
+            <time datetime="2017-05-17T04:21:06.000Z" itemprop="datePublished">2017-05-17</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/mariadb/">mariadb</a>, <a class="tag-link" href="/tags/mysql/">mysql</a>, <a class="tag-link" href="/tags/nginx/">nginx</a>, <a class="tag-link" href="/tags/php7/">php7</a>, <a class="tag-link" href="/tags/php7-fpm/">php7-fpm</a>, <a class="tag-link" href="/tags/raspberrypi/">raspberrypi</a>, <a class="tag-link" href="/tags/raspbian/">raspbian</a>, <a class="tag-link" href="/tags/ubuntu/">ubuntu</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>php 개발환경을 세팅해보겠다.</p>
+<h1 id="nginx-설치"><a href="#nginx-설치" class="headerlink" title="nginx 설치"></a>nginx 설치</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install nginx</span><br><span class="line">$ sudo service nginx restart</span><br></pre></td></tr></table></figure>
+<p>생각보다 설치와 실행이 너무 쉬워서 깜짝 놀랬다.<br><code>http://localhost</code>로 접속하여 확인하자.</p>
+<h1 id="php7-설치"><a href="#php7-설치" class="headerlink" title="php7 설치"></a>php7 설치</h1><h2 id="설치-준비"><a href="#설치-준비" class="headerlink" title="설치 준비"></a>설치 준비</h2><p>php7에 대한 정보가 없기 때문에 이를 추가해 주는 과정이다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/apt/sources.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 아래 줄을 추가한다.</span></span><br><span class="line">deb http://repozytorium.mati75.eu/raspbian jessie-backports main contrib non-free</span><br><span class="line"></span><br><span class="line"><span class="comment"># 키서버를 등록해준다.</span></span><br><span class="line">$ sudo gpg --keyserver pgpkeys.mit.edu --recv key CCD91D6111A06851</span><br><span class="line"></span><br><span class="line">gpg: directory <span class="string">'/root/.gnupg'</span> created</span><br><span class="line">gpg: new configuration file <span class="string">'/root/.gnupg/gpg.conf'</span> created</span><br><span class="line">gpg: WARNING: options <span class="keyword">in</span> <span class="string">'/root/.gnupg/gpg.conf'</span> are not yet active during this run</span><br><span class="line">gpg: keyring <span class="string">'/root/.gnupg/secring.gpg'</span> created</span><br><span class="line">gpg: keyring <span class="string">'/root/.gnupg/pubring.gpg'</span> created</span><br><span class="line">gpg: <span class="string">"key"</span> not a key ID: skipping</span><br><span class="line">gpg: requesting key 11A06851 from hkp server pgpkeys.mit.edu</span><br><span class="line">sudo gpg --armgpg: /root/.gnupg/trustdb.gpg: trustdb created</span><br><span class="line">gpg: key 11A06851: public key <span class="string">"Mateusz Łukasik &lt;mati75@linuxmint.pl&gt;"</span> imported</span><br><span class="line">gpg: Total number processed: 1</span><br><span class="line">gpg:               imported: 1  (RSA: 1)</span><br><span class="line">$ sudo gpg --armor --<span class="built_in">export</span> CCD91D6111A06851 | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<p>업데이트한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update -y</span><br></pre></td></tr></table></figure>
+<h2 id="php7-설치-php-fpm"><a href="#php7-설치-php-fpm" class="headerlink" title="php7 설치 (php-fpm)"></a>php7 설치 (php-fpm)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install php7.0 php7.0-cli php7.0-common php7.0-fpm php7.0-gd php7.0-json php7.0-mcrypt php7.0-mysql php7.0-readline -y</span><br></pre></td></tr></table></figure>
+<h2 id="nginx의-소켓-업데이트"><a href="#nginx의-소켓-업데이트" class="headerlink" title="nginx의 소켓 업데이트"></a>nginx의 소켓 업데이트</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install php7.0-fpm</span><br><span class="line">$ sudo vi /etc/nginx/sites-available/default</span><br><span class="line"><span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line"><span class="comment">#       include snippets/fastcgi-php.conf;</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#       # With php5-cgi alone:</span></span><br><span class="line"><span class="comment">#       fastcgi_pass 127.0.0.1:9000;</span></span><br><span class="line"><span class="comment">#       # With php5-fpm:</span></span><br><span class="line"><span class="comment">#       fastcgi_pass unix:/var/run/php5-fpm.sock;</span></span><br><span class="line"><span class="comment">#&#125;</span></span><br><span class="line">location ~ \.php$ &#123;</span><br><span class="line">         fastcgi_pass    unix:/run/php/php7.0-fpm.sock;</span><br><span class="line">         fastcgi_index   index.php;</span><br><span class="line">         fastcgi_param   SCRIPT_FILENAME <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">         include         fastcgi_params;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># index index.html index.php index.htm 역시 추가하도록 하자</span></span><br></pre></td></tr></table></figure>
+<p>nginx 설정이 수정되었으므로 서비스 재시작을 한다.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service nginx restart</span><br></pre></td></tr></table></figure></p>
+<p>php 버전을 확인해본다.<br>버전 정보가 출력된다면 설치가 잘 된 것이다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ php -v</span><br><span class="line">PHP 7.0.19-1~bpo8+1 (cli) (built: May 12 2017 20:05:12) ( NTS )</span><br><span class="line">Copyright (c) 1997-2017 The PHP Group</span><br><span class="line">Zend Engine v3.0.0, Copyright (c) 1998-2017 Zend Technologies</span><br><span class="line">    with Zend OPcache v7.0.19-1~bpo8+1, Copyright (c) 1999-2017, by Zend Technologies</span><br></pre></td></tr></table></figure>
+<h1 id="mysql-설치-mariadb"><a href="#mysql-설치-mariadb" class="headerlink" title="mysql 설치 (mariadb)"></a>mysql 설치 (mariadb)</h1><p>역시 패키지부터 설치해주자.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install mariadb-server</span><br></pre></td></tr></table></figure>
+<p>root 사용자 비밀번호를 설정하는 창이 나오면 입력하고 한 번 더 입력해준다.</p>
+<p>그리고 3306 포트에 대한 방화벽을 열어준다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo iptables -A INPUT -p tcp --dport 3306 -j ACCEPT</span><br><span class="line">$ sudo iptables -A OUTPUT -p tcp --dport 3306 -j ACCEPT</span><br><span class="line">$ sudo iptables-save</span><br></pre></td></tr></table></figure>
+<p>따로 재시작을 해 줄 필요도, 할 수도 없지만 <code>iptables-save</code> 명령어로 방화벽 정책이 저장된 것이다.</p>
+<p>root 로 접속 확인 후<br>‘사용자명’@‘%’ 를 mysql.user 테이블에 추가하여 테이블 권한을 적절하게 주도록 한다.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://hwiVeloper.github.io/2017/05/17/raspberrypi-nginx-php7-mariadb/" data-id="ck346a2r0001e98hhgwmgm3ar" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- busuanzi visitor counter script -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/hwiVeloper" target="_blank" rel="external nofollow noopener noreferrer">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/jjonghwi" target="_blank" rel="external nofollow noopener noreferrer">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="instagram" href="https://instagram.com/hwi_stagram" target="_blank" rel="external nofollow noopener noreferrer">
+                        <i class="icon fa fa-instagram"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/05/18/mvc-in-codeigniter/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            MVC(Model View Controller) ?
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/05/17/raspberrypi-auto-mount/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">라즈베리파이 자동 마운트</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Review/">Review</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scribble/">Scribble</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Software/">Software</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/raspberrypi/">raspberrypi</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/28/2nd-job-flipping/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/E08CWBZ.png)" alt="두 번째 이직" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Scribble/">Scribble</a></p>
+                            <p class="item-title"><a href="/2019/10/28/2nd-job-flipping/" class="title">두 번째 이직</a></p>
+                            <p class="item-date"><time datetime="2019-10-28T05:42:29.000Z" itemprop="datePublished">2019-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/21/spring-boot-oauth2-authserver/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 OAuth2 - 3. OAuth 인증 서버 구축" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/04/21/spring-boot-oauth2-authserver/" class="title">스프링부트 OAuth2 - 3. OAuth 인증 서버 구축</a></p>
+                            <p class="item-date"><time datetime="2019-04-21T09:12:00.000Z" itemprop="datePublished">2019-04-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/08/spring-boot-oauth2-github/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 OAuth2 - 2. Github 인증" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/04/08/spring-boot-oauth2-github/" class="title">스프링부트 OAuth2 - 2. Github 인증</a></p>
+                            <p class="item-date"><time datetime="2019-04-08T07:30:00.000Z" itemprop="datePublished">2019-04-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/05/spring-boot-oauth2-facebook/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 OAuth2 - 1. Facebook 인증" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/04/05/spring-boot-oauth2-facebook/" class="title">스프링부트 OAuth2 - 1. Facebook 인증</a></p>
+                            <p class="item-date"><time datetime="2019-04-05T07:30:53.000Z" itemprop="datePublished">2019-04-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/16/spring-boot-scheduler/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 스케쥴러" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/01/16/spring-boot-scheduler/" class="title">스프링부트 스케쥴러</a></p>
+                            <p class="item-date"><time datetime="2019-01-16T14:39:53.000Z" itemprop="datePublished">2019-01-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">17</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/2018/" style="font-size: 10px;">2018</a> <a href="/tags/apm/" style="font-size: 12.86px;">apm</a> <a href="/tags/atom/" style="font-size: 12.86px;">atom</a> <a href="/tags/automount/" style="font-size: 10px;">automount</a> <a href="/tags/book/" style="font-size: 10px;">book</a> <a href="/tags/codeigniter/" style="font-size: 10px;">codeigniter</a> <a href="/tags/composer/" style="font-size: 10px;">composer</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/datasource/" style="font-size: 10px;">datasource</a> <a href="/tags/date/" style="font-size: 10px;">date</a> <a href="/tags/db-connection/" style="font-size: 10px;">db-connection</a> <a href="/tags/developer/" style="font-size: 10px;">developer</a> <a href="/tags/devtools/" style="font-size: 12.86px;">devtools</a> <a href="/tags/facebook/" style="font-size: 10px;">facebook</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ide/" style="font-size: 12.86px;">ide</a> <a href="/tags/installer/" style="font-size: 10px;">installer</a> <a href="/tags/java/" style="font-size: 17.14px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/laravel/" style="font-size: 11.43px;">laravel</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/logrotate/" style="font-size: 10px;">logrotate</a> <a href="/tags/mariadb/" style="font-size: 10px;">mariadb</a> <a href="/tags/memoir/" style="font-size: 10px;">memoir</a> <a href="/tags/messaging/" style="font-size: 10px;">messaging</a> <a href="/tags/multi-cursor/" style="font-size: 10px;">multi-cursor</a> <a href="/tags/mvc/" style="font-size: 10px;">mvc</a> <a href="/tags/mysql/" style="font-size: 12.86px;">mysql</a> <a href="/tags/nginx/" style="font-size: 11.43px;">nginx</a> <a href="/tags/oauth2/" style="font-size: 12.86px;">oauth2</a> <a href="/tags/obj-c/" style="font-size: 20px;">obj-c</a> <a href="/tags/objective-c/" style="font-size: 20px;">objective-c</a> <a href="/tags/order-by/" style="font-size: 10px;">order by</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/php7/" style="font-size: 10px;">php7</a> <a href="/tags/php7-fpm/" style="font-size: 10px;">php7-fpm</a> <a href="/tags/pigments/" style="font-size: 10px;">pigments</a> <a href="/tags/proftpd/" style="font-size: 10px;">proftpd</a> <a href="/tags/raspberrypi/" style="font-size: 18.57px;">raspberrypi</a> <a href="/tags/raspbian/" style="font-size: 18.57px;">raspbian</a> <a href="/tags/remote-ftp/" style="font-size: 10px;">remote-ftp</a> <a href="/tags/review/" style="font-size: 10px;">review</a> <a href="/tags/scheduler/" style="font-size: 10px;">scheduler</a> <a href="/tags/spring/" style="font-size: 15.71px;">spring</a> <a href="/tags/spring-boot/" style="font-size: 15.71px;">spring-boot</a> <a href="/tags/spring-security/" style="font-size: 12.86px;">spring-security</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/stomp/" style="font-size: 10px;">stomp</a> <a href="/tags/stringbuilder/" style="font-size: 10px;">stringbuilder</a> <a href="/tags/stringjoiner/" style="font-size: 10px;">stringjoiner</a> <a href="/tags/swift/" style="font-size: 20px;">swift</a> <a href="/tags/torrent/" style="font-size: 10px;">torrent</a> <a href="/tags/transmission/" style="font-size: 10px;">transmission</a> <a href="/tags/ubuntu/" style="font-size: 18.57px;">ubuntu</a> <a href="/tags/websocket/" style="font-size: 10px;">websocket</a> <a href="/tags/개발자/" style="font-size: 10px;">개발자</a> <a href="/tags/이직/" style="font-size: 10px;">이직</a> <a href="/tags/한빛미디어/" style="font-size: 10px;">한빛미디어</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+        <!-- busuanzi counter display -->
+        <div class="busuanzi-counter">
+            <span id="busuanzi_container_site_pv">
+                Total : <span id="busuanzi_value_site_pv"></span>
+            </span>
+            <span id="busuanzi_container_site_uv">
+                Visitors : <span id="busuanzi_value_site_uv"></span>
+            </span>
+        </div>
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+		<!--
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+		-->
+                <p>&copy; 2019 hwiVeloper</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hwiVeloper';
+    
+    
+    var disqus_url = 'https://hwiVeloper.github.io/2017/05/17/raspberrypi-nginx-php7-mariadb/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+

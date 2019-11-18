@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- adsense -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-1177674828493578",
+    enable_page_level_ads: true
+  });
+</script>
+
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Swift 변수와 자료형 | hwiVeloper</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="swift,iOS,obj-c,objective-c">
+    
+    <!-- naver-site-verification -->
+    <meta name="naver-site-verification" content="4b97c9f410edba46c1d63bf0aaacc3f2fad71509">
+    
+        <meta name="description" content="꼼꼼한 재은씨의 Swift3 기본편을 보며 Swift 문법 내용을 정리한 내용입니다.  Swift 기본 문법기초 문법변수의 대소문자를 구분한다. (모든 객체)12345var a = 30;var A = 30;// 함수와 메소드, 인스턴스명 첫 글자 -&amp;gt; 소문자// 클래스와 구조체, 프로토콜 등 객체의 첫 글자 -&amp;gt; 대문자 구문 끝의 세미콜론(;)">
+<meta name="keywords" content="swift,iOS,obj-c,objective-c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift 변수와 자료형">
+<meta property="og:url" content="https://hwiVeloper.github.io/2017/05/31/swift-variables-data-type/index.html">
+<meta property="og:site_name" content="hwiVeloper">
+<meta property="og:description" content="꼼꼼한 재은씨의 Swift3 기본편을 보며 Swift 문법 내용을 정리한 내용입니다.  Swift 기본 문법기초 문법변수의 대소문자를 구분한다. (모든 객체)12345var a = 30;var A = 30;// 함수와 메소드, 인스턴스명 첫 글자 -&amp;gt; 소문자// 클래스와 구조체, 프로토콜 등 객체의 첫 글자 -&amp;gt; 대문자 구문 끝의 세미콜론(;)">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://i.imgur.com/nVbRJQf.jpg">
+<meta property="og:updated_time" content="2019-11-18T08:33:08.737Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift 변수와 자료형">
+<meta name="twitter:description" content="꼼꼼한 재은씨의 Swift3 기본편을 보며 Swift 문법 내용을 정리한 내용입니다.  Swift 기본 문법기초 문법변수의 대소문자를 구분한다. (모든 객체)12345var a = 30;var A = 30;// 함수와 메소드, 인스턴스명 첫 글자 -&amp;gt; 소문자// 클래스와 구조체, 프로토콜 등 객체의 첫 글자 -&amp;gt; 대문자 구문 끝의 세미콜론(;)">
+<meta name="twitter:image" content="http://i.imgur.com/nVbRJQf.jpg">
+    
+    
+
+    
+
+    
+        <link rel="icon" href="/favicon-github.ico">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-99293532-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <!-- OneSignal -->
+    <link rel="manifest" href="/manifest.json">
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+            appId: "76ed5201-e024-4abf-a603-048783f1a361",
+            });
+        });
+    </script>
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo-title">hwiVeloper</a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">devlog</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/archives/index.html">Archive</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/swift/">swift</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-swift-variables-data-type" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Swift 변수와 자료형
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/05/31/swift-variables-data-type/" class="article-date">
+            <time datetime="2017-05-31T01:42:28.000Z" itemprop="datePublished">2017-05-31</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/iOS/">iOS</a>, <a class="tag-link" href="/tags/obj-c/">obj-c</a>, <a class="tag-link" href="/tags/objective-c/">objective-c</a>, <a class="tag-link" href="/tags/swift/">swift</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <blockquote>
+<p>꼼꼼한 재은씨의 Swift3 기본편을 보며 Swift 문법 내용을 정리한 내용입니다.</p>
+</blockquote>
+<h1 id="Swift-기본-문법"><a href="#Swift-기본-문법" class="headerlink" title="Swift 기본 문법"></a>Swift 기본 문법</h1><h2 id="기초-문법"><a href="#기초-문법" class="headerlink" title="기초 문법"></a>기초 문법</h2><h3 id="변수의-대소문자를-구분한다-모든-객체"><a href="#변수의-대소문자를-구분한다-모든-객체" class="headerlink" title="변수의 대소문자를 구분한다. (모든 객체)"></a>변수의 대소문자를 구분한다. (모든 객체)</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">30</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="type">A</span> = <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 함수와 메소드, 인스턴스명 첫 글자 -&gt; 소문자</span></span><br><span class="line"><span class="comment">// 클래스와 구조체, 프로토콜 등 객체의 첫 글자 -&gt; 대문자</span></span><br></pre></td></tr></table></figure>
+<h3 id="구문-끝의-세미콜론-은-옵션"><a href="#구문-끝의-세미콜론-은-옵션" class="headerlink" title="구문 끝의 세미콜론(;)은 옵션"></a>구문 끝의 세미콜론(;)은 옵션</h3><p>써도 되고 안 써도 된다. 인터프리터가 자동으로 끝을해석해 준다.<br>가독성의 이유로 주로 붙이기도 한다.</p>
+<h3 id="main-메서드가-없다"><a href="#main-메서드가-없다" class="headerlink" title="main() 메서드가 없다."></a>main() 메서드가 없다.</h3><p><code>@UIApplicationMain</code> 어노테이션을 사용하여 시작 객체를 지정한다.<br><code>@UIApplicationMain</code> 어노테이션이 붙는 객체는 하나다.</p>
+<h3 id="문자열-문자-모두-큰따옴표-“-“-를-사용한다"><a href="#문자열-문자-모두-큰따옴표-“-“-를-사용한다" class="headerlink" title="문자열, 문자 모두 큰따옴표(“ “)를 사용한다."></a>문자열, 문자 모두 큰따옴표(“ “)를 사용한다.</h3><p>자바를 생각하고 쓴다면 헷갈릴 수 있다. character 타입도 큰따옴표로 표시한다.</p>
+<h3 id="import-키워드는-라이브러리와-프레임워크-참조-용도이다"><a href="#import-키워드는-라이브러리와-프레임워크-참조-용도이다" class="headerlink" title="import 키워드는 라이브러리와 프레임워크 참조 용도이다."></a>import 키워드는 라이브러리와 프레임워크 참조 용도이다.</h3><p>ex) import UIKit</p>
+<h3 id="한-줄-주석-여러-줄-주석-모두-사용-가능하다"><a href="#한-줄-주석-여러-줄-주석-모두-사용-가능하다" class="headerlink" title="한 줄 주석, 여러 줄 주석 모두 사용 가능하다."></a>한 줄 주석, 여러 줄 주석 모두 사용 가능하다.</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 한 줄 주석</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 여러 줄 주석</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<h3 id="try-catch-와-같이-오류-처리를-지원한다"><a href="#try-catch-와-같이-오류-처리를-지원한다" class="headerlink" title="try ~ catch 와 같이 오류 처리를 지원한다."></a>try ~ catch 와 같이 오류 처리를 지원한다.</h3><p>이는 2.0에서 처음 추가되어 직접 오류를 throw 할 수 있도록 하는 기능<br><br>자바 등에서는 일반적이지만 스위프트에서는 처음에 이러한 것을 지원하지 않았다.</p>
+<h2 id="변수와-상수"><a href="#변수와-상수" class="headerlink" title="변수와 상수"></a>변수와 상수</h2><p>변수는 값이 변할 수 있는 것, 상수는 한 번 정하면 값을 바꿀 수 없다.</p>
+<p>변수는 지정된 타입에 해당하는 값만 넣을 수 있다.</p>
+<h3 id="선언-초기화"><a href="#선언-초기화" class="headerlink" title="선언, 초기화"></a>선언, 초기화</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 변수</span></span><br><span class="line"><span class="keyword">var</span> year = <span class="number">2017</span></span><br><span class="line"><span class="keyword">var</span> message = <span class="string">"Hello, World"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 상수</span></span><br><span class="line"><span class="keyword">let</span> birthYear = <span class="number">1990</span></span><br><span class="line"><span class="keyword">let</span> welcomeMsg = <span class="string">"환영합니다."</span></span><br><span class="line"><span class="comment">// 이후에 변경을 시도하면 에러.</span></span><br></pre></td></tr></table></figure>
+<h3 id="변수와-상수의-이름짓기"><a href="#변수와-상수의-이름짓기" class="headerlink" title="변수와 상수의 이름짓기"></a>변수와 상수의 이름짓기</h3><ol>
+<li>알파벳, 한글, 아라비아 숫자, 특수기호, 한자, 이미지용 바이너리 코드 사용 가능</li>
+<li>연산자, 공백 등은 사용 불가능하지만 언더바는 사용 가능하다.</li>
+<li>예약어, 키워드 등은 사용 가능하지만 기존 것에서 대소문자 등을 바꾸면 가능하다.</li>
+<li>첫째자리에 숫자가 올 수 없다.</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="type">Class</span> = <span class="number">1</span> <span class="comment">// okay</span></span><br><span class="line"><span class="keyword">var</span> <span class="class"><span class="keyword">class</span> = 1 // <span class="title">Error</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">var</span> <span class="title">Enum</span> = 2 // <span class="title">okay</span></span></span><br><span class="line"><span class="class"><span class="title">var</span> <span class="title">enum</span> = 2 // <span class="title">Error</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="자료형"><a href="#자료형" class="headerlink" title="자료형"></a>자료형</h2><h3 id="기본-자료형"><a href="#기본-자료형" class="headerlink" title="기본 자료형"></a>기본 자료형</h3><h4 id="Int"><a href="#Int" class="headerlink" title="Int"></a>Int</h4><p>Integer. 부호 있는 정수값  (127 ~ -128 까지 저장이 가능하다.)</p>
+<table>
+<thead>
+<tr>
+<th>자료형</th>
+<th>저장할 수 있는 값 범위</th>
+<th>크기</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Int8</td>
+<td>127 ~ -128</td>
+<td>8bit</td>
+</tr>
+<tr>
+<td>Int16</td>
+<td>32767 ~ -32768</td>
+<td>16bit</td>
+</tr>
+<tr>
+<td>Int32</td>
+<td>2147483647 ~ -2147483648</td>
+<td>32bit</td>
+</tr>
+<tr>
+<td>Int64</td>
+<td>9223372036854775807 ~ -9223372036854775808</td>
+<td>64bit</td>
+</tr>
+</tbody>
+</table>
+<h4 id="UInt"><a href="#UInt" class="headerlink" title="UInt"></a>UInt</h4><p>Integer와 유사하지만 부호가 없는 정수. (0 ~ 255)</p>
+<p>음수의 범위를 양수가 가져간다고 보면 되겠다.</p>
+<h4 id="Double-Float"><a href="#Double-Float" class="headerlink" title="Double, Float"></a>Double, Float</h4><p>실수 범위이다. Float는 32bit, Double은 그 두 배인 64bit까지 표현 가능하다.</p>
+<h4 id="Bool"><a href="#Bool" class="headerlink" title="Bool"></a>Bool</h4><p>true/false의 값을 가질 수 있는 자료형이다.</p>
+<h4 id="String"><a href="#String" class="headerlink" title="String"></a>String</h4><p>아마 모든 언어에서 제일 많이 쓰는 자료형일 것이다.(C 제외)</p>
+<h4 id="Character"><a href="#Character" class="headerlink" title="Character"></a>Character</h4><p>한 개 문자를 저장하는 자료형이다. 앞서 언급했듯이 큰따옴표(“ “)를 사용한다.</p>
+<h3 id="타입-추론-어노테이션"><a href="#타입-추론-어노테이션" class="headerlink" title="타입 추론, 어노테이션"></a>타입 추론, 어노테이션</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> age : <span class="type">Int</span> <span class="comment">// Int 타입임을 명시한다.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> age</span><br><span class="line">age = <span class="number">28</span> <span class="comment">// 초기화를 하면서 자료형을 정한다.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> weight : <span class="type">Float</span> = <span class="number">28</span></span><br><span class="line"><span class="keyword">var</span> hello : <span class="type">Character</span> = <span class="string">"안"</span> <span class="comment">// 이와 같이 선언 가능하다.</span></span><br></pre></td></tr></table></figure>
+<h3 id="타입이-다른-변수끼리-결합"><a href="#타입이-다른-변수끼리-결합" class="headerlink" title="타입이 다른 변수끼리 결합"></a>타입이 다른 변수끼리 결합</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> format = <span class="string">"당신의 나이는 "</span></span><br><span class="line"><span class="keyword">var</span> age = <span class="number">28</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> msg = format + <span class="type">String</span>(age) <span class="comment">// 타입이 다르다면 변형 후 결합한다.</span></span><br></pre></td></tr></table></figure>
+<h4 id="문자열-템플릿"><a href="#문자열-템플릿" class="headerlink" title="문자열 템플릿"></a>문자열 템플릿</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"휘"</span></span><br><span class="line"><span class="keyword">var</span> year = <span class="number">1990</span></span><br><span class="line"><span class="keyword">var</span> month = <span class="number">8</span></span><br><span class="line"><span class="keyword">var</span> day = <span class="number">17</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 문자열 템플릿을 사용해보자.</span></span><br><span class="line"><span class="keyword">var</span> birth = <span class="string">"\(name)는 \(year)년 \(month)월 \(day)일에 출생했습니다."</span></span><br></pre></td></tr></table></figure>
+<p>문자열 템플릿 안에서의 연산 역시 가능하다.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://hwiVeloper.github.io/2017/05/31/swift-variables-data-type/" data-id="ck346a2rv002w98hhg34ly0z2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- busuanzi visitor counter script -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/hwiVeloper" target="_blank" rel="external nofollow noopener noreferrer">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/jjonghwi" target="_blank" rel="external nofollow noopener noreferrer">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="instagram" href="https://instagram.com/hwi_stagram" target="_blank" rel="external nofollow noopener noreferrer">
+                        <i class="icon fa fa-instagram"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/05/31/swift-operators/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Swift 연산자
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/05/25/raspberrypi-transmission-torrent/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">라즈베리파이 트랜스미션(transmission) 토렌트 사용하기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Review/">Review</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scribble/">Scribble</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Software/">Software</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/raspberrypi/">raspberrypi</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/28/2nd-job-flipping/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/E08CWBZ.png)" alt="두 번째 이직" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Scribble/">Scribble</a></p>
+                            <p class="item-title"><a href="/2019/10/28/2nd-job-flipping/" class="title">두 번째 이직</a></p>
+                            <p class="item-date"><time datetime="2019-10-28T05:42:29.000Z" itemprop="datePublished">2019-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/21/spring-boot-oauth2-authserver/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 OAuth2 - 3. OAuth 인증 서버 구축" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/04/21/spring-boot-oauth2-authserver/" class="title">스프링부트 OAuth2 - 3. OAuth 인증 서버 구축</a></p>
+                            <p class="item-date"><time datetime="2019-04-21T09:12:00.000Z" itemprop="datePublished">2019-04-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/08/spring-boot-oauth2-github/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 OAuth2 - 2. Github 인증" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/04/08/spring-boot-oauth2-github/" class="title">스프링부트 OAuth2 - 2. Github 인증</a></p>
+                            <p class="item-date"><time datetime="2019-04-08T07:30:00.000Z" itemprop="datePublished">2019-04-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/05/spring-boot-oauth2-facebook/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 OAuth2 - 1. Facebook 인증" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/04/05/spring-boot-oauth2-facebook/" class="title">스프링부트 OAuth2 - 1. Facebook 인증</a></p>
+                            <p class="item-date"><time datetime="2019-04-05T07:30:53.000Z" itemprop="datePublished">2019-04-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/16/spring-boot-scheduler/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/WTlXjeF.jpg)" alt="스프링부트 스케쥴러" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">java</a></p>
+                            <p class="item-title"><a href="/2019/01/16/spring-boot-scheduler/" class="title">스프링부트 스케쥴러</a></p>
+                            <p class="item-date"><time datetime="2019-01-16T14:39:53.000Z" itemprop="datePublished">2019-01-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">17</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/2018/" style="font-size: 10px;">2018</a> <a href="/tags/apm/" style="font-size: 12.86px;">apm</a> <a href="/tags/atom/" style="font-size: 12.86px;">atom</a> <a href="/tags/automount/" style="font-size: 10px;">automount</a> <a href="/tags/book/" style="font-size: 10px;">book</a> <a href="/tags/codeigniter/" style="font-size: 10px;">codeigniter</a> <a href="/tags/composer/" style="font-size: 10px;">composer</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/datasource/" style="font-size: 10px;">datasource</a> <a href="/tags/date/" style="font-size: 10px;">date</a> <a href="/tags/db-connection/" style="font-size: 10px;">db-connection</a> <a href="/tags/developer/" style="font-size: 10px;">developer</a> <a href="/tags/devtools/" style="font-size: 12.86px;">devtools</a> <a href="/tags/facebook/" style="font-size: 10px;">facebook</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ide/" style="font-size: 12.86px;">ide</a> <a href="/tags/installer/" style="font-size: 10px;">installer</a> <a href="/tags/java/" style="font-size: 17.14px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/laravel/" style="font-size: 11.43px;">laravel</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/logrotate/" style="font-size: 10px;">logrotate</a> <a href="/tags/mariadb/" style="font-size: 10px;">mariadb</a> <a href="/tags/memoir/" style="font-size: 10px;">memoir</a> <a href="/tags/messaging/" style="font-size: 10px;">messaging</a> <a href="/tags/multi-cursor/" style="font-size: 10px;">multi-cursor</a> <a href="/tags/mvc/" style="font-size: 10px;">mvc</a> <a href="/tags/mysql/" style="font-size: 12.86px;">mysql</a> <a href="/tags/nginx/" style="font-size: 11.43px;">nginx</a> <a href="/tags/oauth2/" style="font-size: 12.86px;">oauth2</a> <a href="/tags/obj-c/" style="font-size: 20px;">obj-c</a> <a href="/tags/objective-c/" style="font-size: 20px;">objective-c</a> <a href="/tags/order-by/" style="font-size: 10px;">order by</a> <a href="/tags/php/" style="font-size: 14.29px;">php</a> <a href="/tags/php7/" style="font-size: 10px;">php7</a> <a href="/tags/php7-fpm/" style="font-size: 10px;">php7-fpm</a> <a href="/tags/pigments/" style="font-size: 10px;">pigments</a> <a href="/tags/proftpd/" style="font-size: 10px;">proftpd</a> <a href="/tags/raspberrypi/" style="font-size: 18.57px;">raspberrypi</a> <a href="/tags/raspbian/" style="font-size: 18.57px;">raspbian</a> <a href="/tags/remote-ftp/" style="font-size: 10px;">remote-ftp</a> <a href="/tags/review/" style="font-size: 10px;">review</a> <a href="/tags/scheduler/" style="font-size: 10px;">scheduler</a> <a href="/tags/spring/" style="font-size: 15.71px;">spring</a> <a href="/tags/spring-boot/" style="font-size: 15.71px;">spring-boot</a> <a href="/tags/spring-security/" style="font-size: 12.86px;">spring-security</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/stomp/" style="font-size: 10px;">stomp</a> <a href="/tags/stringbuilder/" style="font-size: 10px;">stringbuilder</a> <a href="/tags/stringjoiner/" style="font-size: 10px;">stringjoiner</a> <a href="/tags/swift/" style="font-size: 20px;">swift</a> <a href="/tags/torrent/" style="font-size: 10px;">torrent</a> <a href="/tags/transmission/" style="font-size: 10px;">transmission</a> <a href="/tags/ubuntu/" style="font-size: 18.57px;">ubuntu</a> <a href="/tags/websocket/" style="font-size: 10px;">websocket</a> <a href="/tags/개발자/" style="font-size: 10px;">개발자</a> <a href="/tags/이직/" style="font-size: 10px;">이직</a> <a href="/tags/한빛미디어/" style="font-size: 10px;">한빛미디어</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+        <!-- busuanzi counter display -->
+        <div class="busuanzi-counter">
+            <span id="busuanzi_container_site_pv">
+                Total : <span id="busuanzi_value_site_pv"></span>
+            </span>
+            <span id="busuanzi_container_site_uv">
+                Visitors : <span id="busuanzi_value_site_uv"></span>
+            </span>
+        </div>
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+		<!--
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+		-->
+                <p>&copy; 2019 hwiVeloper</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hwiVeloper';
+    
+    
+    var disqus_url = 'https://hwiVeloper.github.io/2017/05/31/swift-variables-data-type/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+
